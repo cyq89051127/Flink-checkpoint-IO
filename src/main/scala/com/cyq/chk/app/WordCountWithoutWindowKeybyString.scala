@@ -1,16 +1,14 @@
 package com.cyq.chk.app
 
-import java.util.Properties
-
 import com.cyq.chk.WordCount
-import org.apache.flink.streaming.api.scala._
-import org.apache.commons.lang3.StringUtils
-import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaProducer}
-import org.apache.flink.api.common.serialization.SimpleStringSchema
-import com.cyq.chk.base.BaseConstant._
+import com.cyq.chk.base.BaseConstant.{chkOperatorId, sinkTopic, sourceTopic}
 import com.cyq.chk.base.{EnvUtil, KafkaUtil}
+import org.apache.commons.lang3.StringUtils
+import org.apache.flink.api.common.serialization.SimpleStringSchema
+import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaProducer}
+import org.apache.flink.streaming.api.scala._
 
-object WordCountWithoutWindow {
+object WordCountWithoutWindowKeybyString {
   def main(args: Array[String]): Unit = {
     val env = EnvUtil.createEnv
     val stream = env
@@ -20,9 +18,10 @@ object WordCountWithoutWindow {
       .flatMap(record => StringUtils.split(record, ","))
       .map(WordCount(_,1))
 
+
     val sinkStream = eventSource
-      // Here we use a function fun: T => K as the keyBy parameter,we need use ReadWithStringKey to read the checkpoint
-      .keyBy(_.word)
+      // Here we use the name as as the keyBy parameter, we need use ReadWithTupleStringKey to read the checkpoint
+      .keyBy("word")
       .reduce{
         (v1,v2) =>
           WordCount(v1.word,v1.count + v2.count)

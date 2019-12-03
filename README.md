@@ -7,3 +7,4 @@ The classes in package of com.cyq.chk.app are for running flink app and checkpoi
 | WordCountWithoutWindow | snapshotting the reducer state with a key of type `String` |
 | ---- | ---- |
 |   ReadWithStringKey   |   reading checkpoint of the reducer state with a key of type `String`   |
+| ReadWithTupleStringKey | reading checkpoint of the reducer state with a key of type `Tuple[String]` |

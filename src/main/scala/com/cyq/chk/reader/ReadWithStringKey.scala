@@ -31,7 +31,7 @@ object ReadWithStringKey {
 
 
 class Reader(executionEnvironment: ExecutionEnvironment) extends KeyedStateReaderFunction[String, WordCount] {
-  private var state: ValueState[WordCount] = null
+  private var state: ValueState[WordCount] = _
 
   // Here the "_op_state" is from StreamGroupedReduce#STATE_NAME
   val stateProperties = new ValueStateDescriptor[WordCount]("_op_state",
