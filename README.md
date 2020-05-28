@@ -10,3 +10,5 @@ The classes in package of com.cyq.chk.app are for running flink app and checkpoi
 | ReadWithTupleStringKey | reading checkpoint of the reducer state with a key of type `Tuple[String]` |
 
 adding desc1
+
+adding desc 6
